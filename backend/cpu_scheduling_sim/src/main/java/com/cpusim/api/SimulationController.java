@@ -7,6 +7,8 @@
 package com.cpusim.api;
 
 import com.cpusim.model.Process;
+import com.cpusim.model.QuizData;
+import com.cpusim.model.QuizResult;
 import com.cpusim.model.SimulationResult;
 import com.cpusim.service.SimulationService;
 
@@ -66,6 +68,28 @@ public class SimulationController {
     @GetMapping("/result")
     public ResponseEntity<SimulationResult> getLastResult() {
         SimulationResult result = simulationService.getLastResult();
+        return ResponseEntity.ok(result);
+    }
+
+    // Endpoint to generate a random quiz
+    @GetMapping("/quiz/generate")
+    public ResponseEntity<QuizData> generateQuiz() {
+        QuizData quizData = simulationService.generateQuiz();
+        return ResponseEntity.ok(quizData);
+    }
+
+    // Endpoint to submit quiz answers and get results
+    @PostMapping("/quiz/submit")
+    public ResponseEntity<QuizResult> submitQuizAnswers(
+            @RequestParam("quizId") String quizId,
+            @RequestParam("contextSwitches") int contextSwitches,
+            @RequestParam("avgWaitTime") double avgWaitTime,
+            @RequestParam("avgTurnaroundTime") double avgTurnaroundTime) {
+        QuizResult result = simulationService.checkQuizAnswers(
+                quizId,
+                contextSwitches,
+                avgWaitTime,
+                avgTurnaroundTime);
         return ResponseEntity.ok(result);
     }
 }

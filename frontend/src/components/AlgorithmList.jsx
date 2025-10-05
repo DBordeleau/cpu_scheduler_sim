@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import '../style/AlgorithmList.css';
 
+const BASE_URL = process.env.REACT_APP_BACKEND_URL || "https://cpu-scheduling-sim.fly.dev/api";
+
 const AlgorithmList = ({ processes, onSimulationComplete }) => {
     const [loading, setLoading] = useState(false);
     const [selectedAlgorithm, setSelectedAlgorithm] = useState(null);
@@ -27,7 +29,7 @@ const AlgorithmList = ({ processes, onSimulationComplete }) => {
             ]);
 
             // First, submit processes
-            const processResponse = await fetch('https://cpu-scheduling-sim.fly.dev/api/simulation/processes', {
+            const processResponse = await fetch(`${BASE_URL}/simulation/processes`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -42,7 +44,7 @@ const AlgorithmList = ({ processes, onSimulationComplete }) => {
             // Then run simulation with quantum for RR
             const quantumParam = algorithmName === 'RR' ? quantum : 2;
             const simResponse = await fetch(
-                `https://cpu-scheduling-sim.fly.dev/api/simulation/simulate?algorithm=${algorithmName}&quantum=${quantumParam}`,
+                `${BASE_URL}/simulation/simulate?algorithm=${algorithmName}&quantum=${quantumParam}`,
                 {
                     method: 'POST',
                     headers: {
