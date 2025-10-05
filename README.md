@@ -1,6 +1,6 @@
 # CPU Scheduling Simulation
 
-This is a web app I made to simulate different CPU scheduling algorithms and display simulation metrics and a timeline of events. The primary purpose of this project was to deepen my understanding of operating systems concepts. You can access a live demo at [URL HERE]
+This is a web app I made to simulate different CPU scheduling algorithms and display simulation metrics and a timeline of events. The primary purpose of this project was to deepen my understanding of operating systems concepts. You can access a live demo [here](https://cpu-scheduler-sim.vercel.app/)
 
 The project currently has implementations for the following algorithms:
 
