@@ -1,0 +1,79 @@
+.process-table-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.process-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.process-table thead {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.process-table th,
+.process-table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.process-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.process-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.pid-cell {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.process-table input {
+    width: 80px;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.add-button,
+.submit-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.add-button:hover {
+    background-color: #45a049;
+}
+
+.submit-button {
+    background-color: #008CBA;
+    color: white;
+}
+
+.submit-button:hover {
+    background-color: #007399;
+}
