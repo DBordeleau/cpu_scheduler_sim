@@ -34,7 +34,7 @@ function App() {
   const handleQuizSubmit = async (answers) => {
     try {
       const result = await submitQuizAnswers(
-        quizData.quizId,
+        quizData,
         answers.contextSwitches,
         answers.avgWaitTime,
         answers.avgTurnaroundTime
@@ -42,6 +42,7 @@ function App() {
       setQuizResult(result);
     } catch (error) {
       console.error('Failed to submit quiz:', error);
+      alert('Failed to submit quiz answers. Please try again.');
     }
   };
 

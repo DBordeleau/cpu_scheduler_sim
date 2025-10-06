@@ -7,6 +7,7 @@ package com.cpusim.service;
 import com.cpusim.model.Process;
 import com.cpusim.model.QuizData;
 import com.cpusim.model.QuizResult;
+import com.cpusim.model.QuizSubmission;
 import com.cpusim.model.SimulationResult;
 import com.cpusim.scheduling.*;
 
@@ -18,7 +19,6 @@ public class SimulationService {
 
     private final List<Process> processes = new ArrayList<>();
     private SimulationResult lastResult;
-    private final Map<String, QuizData> activeQuizzes = new HashMap<>();
     private final Random random = new Random();
 
     public void addProcess(Process process) {
@@ -103,48 +103,38 @@ public class SimulationService {
         };
 
         QuizData quizData = new QuizData(quizId, quizProcesses, selectedAlgorithm, displayName, quantum);
-        activeQuizzes.put(quizId, quizData);
 
         return quizData;
     }
 
-    // Check quiz answers and return results
-    public QuizResult checkQuizAnswers(String quizId, int userContextSwitches, double userAvgWaitTime,
-            double userAvgTurnaroundTime) {
-        QuizData quiz = activeQuizzes.get(quizId);
-        if (quiz == null) {
-            throw new IllegalArgumentException("Quiz not found: " + quizId);
-        }
-
-        // Run the simulation with the quiz's algorithm
-        Scheduler scheduler = switch (quiz.getAlgorithm().toLowerCase()) {
+    // Check quiz answers and return results (stateless - no need for activeQuizzes)
+    public QuizResult checkQuizAnswers(QuizSubmission submission) {
+        // Run the simulation with the submitted quiz data
+        Scheduler scheduler = switch (submission.getAlgorithm().toLowerCase()) {
             case "fcfs" -> new FCFSScheduler();
             case "sjf" -> new SJFScheduler();
             case "srtf" -> new SRTFScheduler();
             case "pp" -> new PPScheduler();
-            case "rr" -> new RRScheduler(quiz.getQuantum());
-            default -> throw new IllegalArgumentException("Unknown algorithm: " + quiz.getAlgorithm());
+            case "rr" -> new RRScheduler(submission.getQuantum());
+            default -> throw new IllegalArgumentException("Unknown algorithm: " + submission.getAlgorithm());
         };
 
-        SimulationResult actualResult = scheduler.schedule(new ArrayList<>(quiz.getProcesses()));
+        SimulationResult actualResult = scheduler.schedule(new ArrayList<>(submission.getProcesses()));
 
         // Check answers with tolerance for floating point (0.01 margin of error)
-        // This allows .66 and .33 to be accepted for 0.67 and 0.33
-        boolean contextSwitchesCorrect = userContextSwitches == actualResult.getTotalContextSwitches();
-        boolean waitTimeCorrect = Math.abs(userAvgWaitTime - actualResult.getAverageWaitingTime()) <= 0.01;
+        boolean contextSwitchesCorrect = submission.getUserContextSwitches() == actualResult.getTotalContextSwitches();
+        boolean waitTimeCorrect = Math
+                .abs(submission.getUserAverageWaitingTime() - actualResult.getAverageWaitingTime()) <= 0.01;
         boolean turnaroundTimeCorrect = Math
-                .abs(userAvgTurnaroundTime - actualResult.getAverageTurnaroundTime()) <= 0.01;
-
-        // Clean up the quiz from active quizzes
-        activeQuizzes.remove(quizId);
+                .abs(submission.getUserAverageTurnaroundTime() - actualResult.getAverageTurnaroundTime()) <= 0.01;
 
         return new QuizResult(
                 actualResult,
                 contextSwitchesCorrect,
                 waitTimeCorrect,
                 turnaroundTimeCorrect,
-                userContextSwitches,
-                userAvgWaitTime,
-                userAvgTurnaroundTime);
+                submission.getUserContextSwitches(),
+                submission.getUserAverageWaitingTime(),
+                submission.getUserAverageTurnaroundTime());
     }
 }

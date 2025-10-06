@@ -3,6 +3,19 @@ import SimulationTimeline from './SimulationTimeline';
 import '../style/QuizResults.css';
 
 function QuizResults({ quizResult, onQuizAgain }) {
+    // Safety check in case actualResult is missing
+    if (!quizResult || !quizResult.actualResult) {
+        return (
+            <div className="quiz-results-container">
+                <h2>Error</h2>
+                <p>Unable to load quiz results. Please try again.</p>
+                <button className="quiz-again-btn" onClick={onQuizAgain}>
+                    Try Again
+                </button>
+            </div>
+        );
+    }
+
     const allCorrect =
         quizResult.contextSwitchesCorrect &&
         quizResult.averageWaitingTimeCorrect &&
@@ -15,12 +28,11 @@ function QuizResults({ quizResult, onQuizAgain }) {
             <div className="score-summary">
                 {allCorrect ? (
                     <div className="all-correct">
-                        <h3>🎉 Perfect Score!</h3>
+                        <h3>Perfect Score!</h3>
                         <p>You got all answers correct!</p>
                     </div>
                 ) : (
                     <div className="some-incorrect">
-                        <h3>Results</h3>
                         <p>Review your answers below:</p>
                     </div>
                 )}

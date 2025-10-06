@@ -9,6 +9,7 @@ package com.cpusim.api;
 import com.cpusim.model.Process;
 import com.cpusim.model.QuizData;
 import com.cpusim.model.QuizResult;
+import com.cpusim.model.QuizSubmission;
 import com.cpusim.model.SimulationResult;
 import com.cpusim.service.SimulationService;
 
@@ -80,16 +81,8 @@ public class SimulationController {
 
     // Endpoint to submit quiz answers and get results
     @PostMapping("/quiz/submit")
-    public ResponseEntity<QuizResult> submitQuizAnswers(
-            @RequestParam("quizId") String quizId,
-            @RequestParam("contextSwitches") int contextSwitches,
-            @RequestParam("avgWaitTime") double avgWaitTime,
-            @RequestParam("avgTurnaroundTime") double avgTurnaroundTime) {
-        QuizResult result = simulationService.checkQuizAnswers(
-                quizId,
-                contextSwitches,
-                avgWaitTime,
-                avgTurnaroundTime);
+    public ResponseEntity<QuizResult> submitQuizAnswers(@RequestBody QuizSubmission submission) {
+        QuizResult result = simulationService.checkQuizAnswers(submission);
         return ResponseEntity.ok(result);
     }
 }

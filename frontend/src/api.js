@@ -33,12 +33,27 @@ export async function generateQuiz() {
     return res.json();
 }
 
-export async function submitQuizAnswers(quizId, contextSwitches, avgWaitTime, avgTurnaroundTime) {
-    const res = await fetch(
-        `${BASE_URL}/simulation/quiz/submit?quizId=${quizId}&contextSwitches=${contextSwitches}&avgWaitTime=${avgWaitTime}&avgTurnaroundTime=${avgTurnaroundTime}`,
-        {
-            method: "POST",
-        }
-    );
+export async function submitQuizAnswers(quizData, contextSwitches, avgWaitTime, avgTurnaroundTime) {
+    const submission = {
+        quizId: quizData.quizId,
+        processes: quizData.processes,
+        algorithm: quizData.algorithm,
+        quantum: quizData.quantum,
+        userContextSwitches: contextSwitches,
+        userAverageWaitingTime: avgWaitTime,
+        userAverageTurnaroundTime: avgTurnaroundTime
+    };
+
+    const res = await fetch(`${BASE_URL}/simulation/quiz/submit`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(submission)
+    });
+
+    if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`Failed to submit quiz: ${res.status} - ${errorText}`);
+    }
+
     return res.json();
 }
