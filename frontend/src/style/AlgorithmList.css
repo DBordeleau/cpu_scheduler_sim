@@ -26,6 +26,11 @@
     gap: 8px;
 }
 
+.algorithm-row>.tooltip-wrapper {
+    flex: 1;
+    display: flex;
+}
+
 .algorithm-button {
     padding: 10px 15px;
     font-size: 14px;
@@ -43,7 +48,6 @@
 
 .algorithm-button:hover:not(:disabled) {
     background-color: #1976D2;
-    transform: translateY(-2px);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 

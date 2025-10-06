@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../style/AlgorithmList.css';
+import Tooltip from './Tooltip';
 
 const BASE_URL = process.env.REACT_APP_BACKEND_URL || "https://cpu-scheduling-sim.fly.dev/api";
 
@@ -15,6 +16,15 @@ const AlgorithmList = ({ processes, onSimulationComplete }) => {
         { name: 'PP', displayName: 'Run Priority Scheduling Simulation' },
         { name: 'RR', displayName: 'Run Round Robin Simulation', hasQuantum: true }
     ];
+
+    // Tooltip text for each button
+    const algorithmDescriptions = {
+        FCFS: "The CPU works on processes in the order they arrive.",
+        PP: "The CPU works on the highest priority process first. If a higher priority process arrives while another process is being worked on, the process is preempted and the CPU performs a context switch.",
+        SJF: "The CPU works on the process with the shortest burst time. This scheduling algorithm is non-preemptive. Once a process is started it will be worked on until it finishes.",
+        SRTF: "This is a preemptive version of the SJF algorithm. The CPU works on the process with the shortest burst time. If a process with a shorter burst time arrives, the active process is preempted and the CPU performs a context switch.",
+        RR: "The CPU works on each process for a predefined quantum amount of time. Every q time units the CPU performs a context switch and works on the next process in the ready queue."
+    };
 
     const runSimulation = async (algorithmName) => {
         setLoading(true);
@@ -79,17 +89,19 @@ const AlgorithmList = ({ processes, onSimulationComplete }) => {
             <div className="algorithm-buttons">
                 {algorithms.map((algo) => (
                     <div key={algo.name} className="algorithm-row">
-                        <button
-                            onClick={() => runSimulation(algo.name)}
-                            disabled={loading}
-                            className={`algorithm-button ${selectedAlgorithm === algo.name ? 'loading' : ''}`}
-                        >
-                            {loading && selectedAlgorithm === algo.name ? (
-                                <>Running...</>
-                            ) : (
-                                <>{algo.displayName}</>
-                            )}
-                        </button>
+                        <Tooltip content={algorithmDescriptions[algo.name]}>
+                            <button
+                                onClick={() => runSimulation(algo.name)}
+                                disabled={loading}
+                                className={`algorithm-button ${selectedAlgorithm === algo.name ? 'loading' : ''}`}
+                            >
+                                {loading && selectedAlgorithm === algo.name ? (
+                                    <>Running...</>
+                                ) : (
+                                    <>{algo.displayName}</>
+                                )}
+                            </button>
+                        </Tooltip>
                         {algo.hasQuantum && (
                             <div className="quantum-input-container">
                                 <label htmlFor="quantum">q =</label>
