@@ -32,9 +32,7 @@ function QuizResults({ quizResult, onQuizAgain }) {
                         <p>You got all answers correct!</p>
                     </div>
                 ) : (
-                    <div className="some-incorrect">
-                        <p>Review your answers below:</p>
-                    </div>
+                    <span>Review results below:</span>
                 )}
             </div>
 

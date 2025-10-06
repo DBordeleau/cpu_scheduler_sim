@@ -44,8 +44,8 @@
 }
 
 .some-incorrect {
-    background: #f8f9fa;
-    border-left: 4px solid #f39c12;
+    background: #f39c12;
+    width: fit-content;
 }
 
 .some-incorrect h3 {
@@ -55,6 +55,7 @@
 
 .some-incorrect p {
     margin: 0.5rem 0 0 0;
+    font-weight: bold;
     color: #555;
 }
 

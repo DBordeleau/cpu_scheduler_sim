@@ -73,7 +73,7 @@ const SimulationTimeline = ({ result }) => {
                 <div className="metrics-grid">
                     <div className="metric-card">
                         <span className="metric-label">
-                            <Tooltip content="The waiting time for a process is the total time it spends in the ready queue not being worked on.">
+                            <Tooltip content="The waiting time for a process is the total time it spends in the ready queue before it starts for the first time.">
                                 <span><FaInfoCircle className='tooltip-icon' /></span>
                             </Tooltip>
                             Avg Waiting Time:
