@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import '../style/Quiz.css';
+import { FaInfoCircle } from 'react-icons/fa';
+import Tooltip from './Tooltip';
 
 function Quiz({ quizData, onSubmit }) {
     const [contextSwitches, setContextSwitches] = useState('');
@@ -51,6 +53,13 @@ function Quiz({ quizData, onSubmit }) {
 
             <form className="quiz-form" onSubmit={handleSubmit}>
                 <div className="quiz-input-group">
+                    <Tooltip content={
+                        <>
+                            A context switch occurs when the CPU switches from one active process to another. This happens when a process is preempted (interrupted), or when a process finishes while another process is ready to be executed. The CPU switching from an idle state to working on a process is <strong>not</strong> a context switch.
+                        </>
+                    }>
+                        <span><FaInfoCircle className='tooltip-icon' /></span>
+                    </Tooltip>
                     <label htmlFor="contextSwitches">Context Switches:</label>
                     <input
                         type="number"
@@ -63,6 +72,9 @@ function Quiz({ quizData, onSubmit }) {
                 </div>
 
                 <div className="quiz-input-group">
+                    <Tooltip content="The waiting time for a process is the total time it spends in the ready queue before it starts for the first time.">
+                        <span><FaInfoCircle className='tooltip-icon' /></span>
+                    </Tooltip>
                     <label htmlFor="avgWaitTime">Average Waiting Time:</label>
                     <input
                         type="number"
@@ -76,6 +88,9 @@ function Quiz({ quizData, onSubmit }) {
                 </div>
 
                 <div className="quiz-input-group">
+                    <Tooltip content="The turnaround time for a process is equal to its completion time - its arrival time.">
+                        <span><FaInfoCircle className='tooltip-icon' /></span>
+                    </Tooltip>
                     <label htmlFor="avgTurnaroundTime">Average Turnaround Time:</label>
                     <input
                         type="number"
