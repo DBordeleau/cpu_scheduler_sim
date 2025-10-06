@@ -20,7 +20,7 @@ function Quiz({ quizData, onSubmit }) {
             <h2>Quiz Mode</h2>
             <div className="quiz-instructions">
                 <p>
-                    Input your answers below assuming the processes above were scheduled with{' '}
+                    Input your answers below assuming the processes below were scheduled with{' '}
                     <strong>{quizData.algorithmDisplayName}</strong> scheduling.
                     {quizData.quantum && ` (Quantum = ${quizData.quantum})`}
                 </p>

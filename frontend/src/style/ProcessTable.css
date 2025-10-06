@@ -2,13 +2,18 @@
     padding: 20px;
     max-width: 800px;
     margin: 0 auto;
+    position: relative;
+    overflow: visible;
 }
 
 .process-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     margin-bottom: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
 .process-table thead {
@@ -20,7 +25,17 @@
 .process-table td {
     padding: 12px;
     text-align: center;
-    border: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.process-table th:last-child,
+.process-table td:last-child {
+    border-right: none;
+}
+
+.process-table tbody tr:last-child td {
+    border-bottom: none;
 }
 
 .process-table tbody tr:nth-child(even) {
@@ -31,9 +46,49 @@
     background-color: #f1f1f1;
 }
 
+.process-row {
+    position: relative;
+}
+
 .pid-cell {
     font-weight: bold;
     font-size: 1.2em;
+}
+
+.arrival-cell {
+    position: relative;
+}
+
+.delete-button-floating {
+    position: absolute;
+    right: -45px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.delete-button-floating:hover {
+    background-color: #d32f2f;
+    transform: translateY(-50%) scale(1.15);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.delete-button-floating:active {
+    transform: translateY(-50%) scale(0.95);
 }
 
 .process-table input {

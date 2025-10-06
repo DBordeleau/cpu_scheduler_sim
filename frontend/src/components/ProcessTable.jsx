@@ -23,10 +23,19 @@ const ProcessTable = ({ onProcessesChange }) => {
         if (onProcessesChange) onProcessesChange(updatedProcesses);
     };
 
-    // Expose processes to parent component on mount
+    const deleteProcess = (index) => {
+        const updatedProcesses = processes.filter((_, i) => i !== index);
+        // Reassign PIDs to maintain sequential order
+        const reindexedProcesses = updatedProcesses.map((process, i) => ({
+            ...process,
+            pid: i + 1
+        }));
+        setProcesses(reindexedProcesses);
+        if (onProcessesChange) onProcessesChange(reindexedProcesses);
+    };
+
     React.useEffect(() => {
         if (onProcessesChange) onProcessesChange(processes);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -42,7 +51,7 @@ const ProcessTable = ({ onProcessesChange }) => {
                 </thead>
                 <tbody>
                     {processes.map((process, index) => (
-                        <tr key={process.pid}>
+                        <tr key={process.pid} className="process-row">
                             <td className="pid-cell">
                                 P<sub>{process.pid}</sub>
                             </td>
@@ -64,7 +73,7 @@ const ProcessTable = ({ onProcessesChange }) => {
                                     min="0"
                                 />
                             </td>
-                            <td>
+                            <td className="arrival-cell">
                                 <input
                                     type="number"
                                     value={process.arrivalTime}
@@ -72,6 +81,16 @@ const ProcessTable = ({ onProcessesChange }) => {
                                     placeholder="0"
                                     min="0"
                                 />
+                                {index > 0 && (
+                                    <button
+                                        onClick={() => deleteProcess(index)}
+                                        className="delete-button-floating"
+                                        aria-label="Delete process"
+                                        tabIndex="-1"
+                                    >
+                                        ✕
+                                    </button>
+                                )}
                             </td>
                         </tr>
                     ))}
